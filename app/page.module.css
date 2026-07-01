@@ -142,9 +142,9 @@
 @keyframes pulse {
   0%,
   100% {
-    opacity: 1;
+    color: currentColor;
   }
   50% {
-    opacity: 0.5;
+    color: color-mix(in srgb, currentColor 40%, transparent);
   }
 }

@@ -47,7 +47,10 @@ export default function Page() {
         <NumberField.Decrement className={styles.Decrement}>
           <MinusIcon />
         </NumberField.Decrement>
-        <NumberField.Input className={styles.Input} data-pending={isPending ? "true" : undefined} />
+        <NumberField.Input
+          className={styles.Input}
+          data-pending={isPending ? "true" : undefined}
+        />
         <NumberField.Increment className={styles.Increment}>
           <PlusIcon />
         </NumberField.Increment>
