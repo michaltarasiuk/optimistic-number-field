@@ -62,6 +62,10 @@
     color: white;
   }
 
+  &[data-pending="true"] {
+    animation: pulse 0.8s ease-in-out infinite;
+  }
+
   &:focus {
     z-index: 1;
     outline: 2px solid oklch(14.5% 0 0deg);
@@ -133,4 +137,14 @@
 
 .Increment {
   border-left: 0;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }

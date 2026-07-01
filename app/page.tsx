@@ -1,30 +1,36 @@
 "use client";
 
+import { updateAmount } from "@/lib/actions";
 import { NumberField } from "@base-ui/react/number-field";
 import * as React from "react";
 import styles from "./page.module.css";
 
 export default function Page() {
-  const [value, setValue] = React.useState(0);
-  const [optimisticValue, setOptimisticValue] = React.useOptimistic(value);
+  const [amount, setAmount] = React.useState(0);
+  const [optimisticAmount, setOptimisticAmount] = React.useOptimistic(amount);
+  const [isPending, startTransition] = React.useTransition();
 
   const id = React.useId();
 
-  async function handleValueChange(newValue: number | null) {
-    if (!newValue) {
+  async function handleValueChange(newAmount: number | null) {
+    if (newAmount === null) {
       return;
     }
-    React.startTransition(async () => {
-      setOptimisticValue(newValue);
-      await new Promise((resolve) => setTimeout(resolve, 2_000));
-      setValue(newValue);
+    startTransition(async () => {
+      setOptimisticAmount(newAmount);
+      try {
+        const updatedAmount = await updateAmount(newAmount);
+        setAmount(updatedAmount);
+      } catch (error) {
+        console.error(error);
+      }
     });
   }
 
   return (
     <NumberField.Root
       id={id}
-      value={optimisticValue}
+      value={optimisticAmount}
       onValueChange={handleValueChange}
       className={styles.Field}
     >
@@ -41,7 +47,7 @@ export default function Page() {
         <NumberField.Decrement className={styles.Decrement}>
           <MinusIcon />
         </NumberField.Decrement>
-        <NumberField.Input className={styles.Input} />
+        <NumberField.Input className={styles.Input} data-pending={isPending ? "true" : undefined} />
         <NumberField.Increment className={styles.Increment}>
           <PlusIcon />
         </NumberField.Increment>
