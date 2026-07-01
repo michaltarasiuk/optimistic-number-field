@@ -1,22 +1,18 @@
 "use client";
 
+import { NumberField } from "@/components/number-field";
 import { updateAmount } from "@/lib/actions";
-import { NumberField } from "@base-ui/react/number-field";
 import * as React from "react";
-import styles from "./page.module.css";
 
 export default function Page() {
   const [amount, setAmount] = React.useState(0);
   const [optimisticAmount, setOptimisticAmount] = React.useOptimistic(amount);
-  const [isPending, startTransition] = React.useTransition();
 
   const id = React.useId();
 
   async function handleValueChange(newAmount: number | null) {
-    if (newAmount === null) {
-      return;
-    }
-    startTransition(async () => {
+    if (newAmount === null) return;
+    React.startTransition(async () => {
       setOptimisticAmount(newAmount);
       try {
         const updatedAmount = await updateAmount(newAmount);
@@ -32,81 +28,16 @@ export default function Page() {
       id={id}
       value={optimisticAmount}
       onValueChange={handleValueChange}
-      className={styles.Field}
     >
-      <NumberField.ScrubArea className={styles.ScrubArea}>
-        <label htmlFor={id} className={styles.Label}>
-          Amount
-        </label>
-        <NumberField.ScrubAreaCursor className={styles.ScrubAreaCursor}>
-          <CursorGrowIcon />
-        </NumberField.ScrubAreaCursor>
+      <NumberField.ScrubArea>
+        <NumberField.Label>Amount</NumberField.Label>
+        <NumberField.ScrubAreaCursor />
       </NumberField.ScrubArea>
-
-      <NumberField.Group className={styles.Group}>
-        <NumberField.Decrement className={styles.Decrement}>
-          <MinusIcon />
-        </NumberField.Decrement>
-        <NumberField.Input
-          className={styles.Input}
-          data-pending={isPending ? "true" : undefined}
-        />
-        <NumberField.Increment className={styles.Increment}>
-          <PlusIcon />
-        </NumberField.Increment>
+      <NumberField.Group>
+        <NumberField.Decrement />
+        <NumberField.Input />
+        <NumberField.Increment />
       </NumberField.Group>
     </NumberField.Root>
-  );
-}
-
-function CursorGrowIcon(props: React.ComponentProps<"svg">) {
-  return (
-    <svg
-      width="26"
-      height="14"
-      viewBox="0 0 24 14"
-      fill="black"
-      stroke="white"
-      {...props}
-      style={{ display: "block", ...props.style }}
-    >
-      <path d="M19.5 5.5L6.49737 5.51844V2L1 6.9999L6.5 12L6.49737 8.5L19.5 8.5V12L25 6.9999L19.5 2V5.5Z" />
-    </svg>
-  );
-}
-
-function PlusIcon(props: React.ComponentProps<"svg">) {
-  return (
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 16 16"
-      fill="none"
-      stroke="currentColor"
-      strokeLinecap="square"
-      strokeLinejoin="round"
-      {...props}
-      style={{ display: "block", ...props.style }}
-    >
-      <path d="M1.5 8h13M8 14.5v-13" />
-    </svg>
-  );
-}
-
-function MinusIcon(props: React.ComponentProps<"svg">) {
-  return (
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 16 16"
-      fill="none"
-      stroke="currentColor"
-      strokeLinecap="square"
-      strokeLinejoin="round"
-      {...props}
-      style={{ display: "block", ...props.style }}
-    >
-      <path d="M1.5 8h13" />
-    </svg>
   );
 }
