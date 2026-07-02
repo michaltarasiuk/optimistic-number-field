@@ -2,7 +2,7 @@
 
 import { updateLiked } from "@/app/examples/toggle-button/_action";
 import { HeartFilledIcon, HeartOutlineIcon } from "@/components/icons";
-import { Toggle } from "@/components/toggle/toggle";
+import { Toggle } from "@/components/toggle";
 import * as React from "react";
 
 export default function Page() {
