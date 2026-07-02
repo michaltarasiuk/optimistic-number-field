@@ -14,6 +14,7 @@ export default function Page() {
       setOptimisticLinked(newLiked);
       try {
         const updatedLiked = await like(newLiked);
+        // https://github.com/tc39/proposal-async-context
         React.startTransition(() => {
           setLiked(updatedLiked);
         });

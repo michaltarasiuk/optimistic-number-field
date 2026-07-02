@@ -40,6 +40,7 @@ export default function Page() {
     setOptimisticTodos((prev) => [...prev, todo]);
     try {
       const addedTodo = await addTodo(todo);
+      // https://github.com/tc39/proposal-async-context
       React.startTransition(() => {
         setTodos((prev) => [...prev, addedTodo]);
       });
@@ -53,6 +54,7 @@ export default function Page() {
       setOptimisticTodos((prev) => prev.filter((t) => t.id !== todo.id));
       try {
         await removeTodo(todo.id);
+        // https://github.com/tc39/proposal-async-context
         React.startTransition(() => {
           setTodos((prev) => prev.filter((t) => t.id !== todo.id));
         });
@@ -71,6 +73,7 @@ export default function Page() {
       );
       try {
         await toggleTodo(todo.id);
+        // https://github.com/tc39/proposal-async-context
         React.startTransition(() => {
           setTodos((prev) =>
             prev.map((t) =>
