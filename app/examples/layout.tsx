@@ -11,6 +11,7 @@ export default function ExamplesLayout({
       <nav className={styles.Nav}>
         <Link href="/examples/toggle-button">Toggle Button</Link>
         <Link href="/examples/number-field">Number Field</Link>
+        <Link href="/examples/todo-list">Todo List</Link>
       </nav>
       <main className={styles.Content}>{children}</main>
     </div>

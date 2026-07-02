@@ -1,6 +1,6 @@
 "use client";
 
-import { updateLiked } from "@/app/examples/toggle-button/_action";
+import { like } from "@/app/examples/toggle-button/_action";
 import { HeartFilledIcon, HeartOutlineIcon } from "@/components/icons";
 import { Toggle } from "@/components/toggle";
 import * as React from "react";
@@ -13,8 +13,10 @@ export default function Page() {
     React.startTransition(async () => {
       setOptimisticLinked(newLiked);
       try {
-        const updatedLiked = await updateLiked(newLiked);
-        setLiked(updatedLiked);
+        const updatedLiked = await like(newLiked);
+        React.startTransition(() => {
+          setLiked(updatedLiked);
+        });
       } catch (error) {
         console.error(error);
       }

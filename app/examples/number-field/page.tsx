@@ -16,7 +16,9 @@ export default function Page() {
       setOptimisticAmount(newAmount);
       try {
         const updatedAmount = await updateAmount(newAmount);
-        setAmount(updatedAmount);
+        React.startTransition(() => {
+          setAmount(updatedAmount);
+        });
       } catch (error) {
         console.error(error);
       }
@@ -29,10 +31,6 @@ export default function Page() {
       value={optimisticAmount}
       onValueChange={handleValueChange}
     >
-      <NumberField.ScrubArea>
-        <NumberField.Label>Amount</NumberField.Label>
-        <NumberField.ScrubAreaCursor />
-      </NumberField.ScrubArea>
       <NumberField.Group>
         <NumberField.Decrement />
         <NumberField.Input />
