@@ -1,8 +1,8 @@
 "use client";
 
 import { NumberField } from "@/components/number-field";
-import { updateAmount } from "@/lib/actions";
 import * as React from "react";
+import { updateAmount } from "./_action";
 
 export default function Page() {
   const [amount, setAmount] = React.useState(0);
