@@ -16,7 +16,7 @@ export default function Page() {
       setOptimisticAmount(newAmount);
       try {
         const updatedAmount = await updateAmount(newAmount);
-        // https://github.com/tc39/proposal-async-context
+        // https://github.com/tc39/proposal-async-context/blob/master/FRAMEWORKS.md#react
         React.startTransition(() => {
           setAmount(updatedAmount);
         });
