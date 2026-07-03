@@ -25,8 +25,9 @@ export default function Page() {
   const [todos, setTodos] = React.useState<Todo[]>([]);
   const [optimisticTodos, setOptimisticTodos] = React.useOptimistic(todos);
 
-  async function handleAddTodo(formData: FormData) {
-    const text = formData.get("todo") as string;
+  const [inputValue, setInputValue] = React.useState("");
+
+  async function handleAddTodo(text: string) {
     if (!text.length) {
       return;
     }
@@ -91,12 +92,24 @@ export default function Page() {
 
   return (
     <div className={styles.Page}>
-      <Form action={handleAddTodo}>
+      <Form
+        onSubmit={(e) => {
+          e.preventDefault();
+          setInputValue("");
+          React.startTransition(() => {
+            handleAddTodo(inputValue);
+          });
+        }}
+      >
         <Field name="todo">
           <Label>New todo</Label>
-          <Input placeholder="What needs to be done?" />
+          <Input
+            value={inputValue}
+            placeholder="What needs to be done?"
+            onChange={(e) => setInputValue(e.target.value)}
+          />
         </Field>
-        <SubmitButton />
+        <Button type="submit">Add</Button>
       </Form>
 
       <ul className={styles.List}>
@@ -126,8 +139,4 @@ export default function Page() {
       </ul>
     </div>
   );
-}
-
-function SubmitButton() {
-  return <Button type="submit">Add</Button>;
 }
